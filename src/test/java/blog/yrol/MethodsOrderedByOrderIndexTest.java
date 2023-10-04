@@ -1,9 +1,6 @@
 package blog.yrol;
 
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 
 /**
  * A demo of running test methods in alphabetical order using the annotation: @TestMethodOrder(MethodOrderer.MethodName.class)

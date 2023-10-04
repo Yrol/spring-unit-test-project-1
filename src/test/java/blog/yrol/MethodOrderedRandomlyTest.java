@@ -6,6 +6,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 /**
  * A demo of running test methods randomly using the annotation: @TestMethodOrder(MethodOrderer.Random.class)
+ * Without the annotation:@TestMethodOrder(MethodOrderer.Random.class) this will be executed in the order: A, B, C, D
  * **/
 @TestMethodOrder(MethodOrderer.Random.class)
 public class MethodOrderedRandomlyTest {
