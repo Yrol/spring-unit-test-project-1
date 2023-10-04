@@ -1,6 +1,10 @@
 package blog.yrol;
 
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.*;
+
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -113,5 +117,66 @@ public class CalculatorTest {
         });
 
         assertEquals(expectedExceptionMessage, actualException.getMessage());
+    }
+
+    /**
+     * Parameterized test - can be used for running different variations of the test using MethodSource
+     * This test will run 3 times since we've provided the arguments to integerSubtractionInputParameters 3 times.
+     * **/
+    @DisplayName("Test integer subtraction with input arguments [minuend,  subtrahend,  expectedResult]")
+    @ParameterizedTest
+    @MethodSource("integerSubtractionInputParameters")
+    void integerSubtractionUsingMethodSource(int minuend, int subtrahend, int expectedResult) {
+        final int result = calculator.integerSubtract(minuend, subtrahend);
+        assertEquals(expectedResult, result, () -> String.format("%s - %s didn't produce %s", minuend, subtrahend, result));
+    }
+
+    /**
+     * Supportive method of integerSubtraction for providing arguments
+     * **/
+    private static Stream<Arguments> integerSubtractionInputParameters() {
+        return Stream.of(
+                Arguments.of(33, 1, 32),
+                Arguments.of(25, 5, 5), // will fail
+                Arguments.of(43, 17, 26)
+        );
+    }
+
+
+    /**
+     * Parameterized test - can be used for running different variations of the test using @CsvSource.
+     * This test will run 3 times since we've provided the arguments to integerSubtractionInputParameters 3 times.
+     * **/
+    @DisplayName("Test integer subtraction with CsvSource arguments [minuend,  subtrahend,  expectedResult]")
+    @ParameterizedTest
+    @CsvSource({
+            "33, 1, 32",
+            "24, 1, 23"
+    })
+    void integerSubtractionUsingCsvource(int minuend, int subtrahend, int expectedResult) {
+        final int result = calculator.integerSubtract(minuend, subtrahend);
+        assertEquals(expectedResult, result, () -> String.format("%s - %s didn't produce %s", minuend, subtrahend, result));
+    }
+
+    /**
+     * Parameterized test - can be used for running different variations of the test using @CsvFileSource created in test resources' folder.
+     * This test will run 3 times since we've provided the arguments to integerSubtractionInputParameters 3 times.
+     * **/
+    @DisplayName("Test integer subtraction with CsvSource arguments [minuend,  subtrahend,  expectedResult]")
+    @ParameterizedTest
+    @CsvFileSource(resources = "/integerSubtraction.csv")
+    void integerSubtractionUsingCsvFileSource(int minuend, int subtrahend, int expectedResult) {
+        final int result = calculator.integerSubtract(minuend, subtrahend);
+        assertEquals(expectedResult, result, () -> String.format("%s - %s didn't produce %s", minuend, subtrahend, result));
+    }
+
+    /**
+     * Parameterized test - can be used for running different variations of the test using
+     * This test will run 3 times since we've provided the arguments to valueSourceDemo 3 times.
+     * **/
+    @ParameterizedTest
+    @ValueSource(strings={"Kyle","James", "Gena"})
+    void valueSourceDemo(String firstName) {
+        assertNotNull(firstName);
     }
 }
